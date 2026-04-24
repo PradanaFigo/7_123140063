@@ -99,7 +99,7 @@ CREATE TABLE Note (
 
 | Layar Utama (Home) | Pencarian & Empty State | Pengaturan (Settings) |
 |:---:|:---:|:---:|
-| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/e20b5565-0d17-454c-add7-5239fafaf8a8" />| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/39476914-62b5-41f9-82f0-3346b8a36392" />|<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/9a1a8a47-f397-4058-a325-29074037d252" />|| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/e20b5565-0d17-454c-add7-5239fafaf8a8" />| 
+| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/e20b5565-0d17-454c-add7-5239fafaf8a8" />| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/39476914-62b5-41f9-82f0-3346b8a36392" />|<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/9a1a8a47-f397-4058-a325-29074037d252" />|| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/e20b5565-0d17-454c-add7-5239fafaf8a8" />| 
 | Sapaan dinamis & Kalender | State saat data kosong | Simpan nama & Sort order |
 
 | Tambah/Edit Catatan |
