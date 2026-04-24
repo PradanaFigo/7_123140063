@@ -1,3 +1,5 @@
+
+https://github.com/user-attachments/assets/e9c6bd81-e8a9-4dd4-accc-c3638cae174d
 # Daily Note App — Compose Multiplatform (KMP)
 
 > Aplikasi pencatatan harian modern berbasis **Kotlin Multiplatform** dengan penyimpanan lokal persisten, manajemen preferensi pengguna, dan UI/UX yang intuitif.
@@ -12,7 +14,7 @@
 | **NIM** | 123140063 |
 | **Program Studi** | Teknik Informatika |
 | **Instansi** | Institut Teknologi Sumatera (ITERA) |
-| **Mata Kuliah** | Praktikum — Pertemuan 7 |
+| **Mata Kuliah** | PAM — Pertemuan 7 |
  
 ---
 
@@ -99,12 +101,14 @@ CREATE TABLE Note (
 
 | Layar Utama (Home) | Pencarian & Empty State | Pengaturan (Settings) |
 |:---:|:---:|:---:|
-| ![Home](screenshots/home.png) | ![Search](screenshots/search_empty.png) | ![Settings](screenshots/settings.png) |
+| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/e20b5565-0d17-454c-add7-5239fafaf8a8" />
+| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/39476914-62b5-41f9-82f0-3346b8a36392" />
+) |<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/9a1a8a47-f397-4058-a325-29074037d252" />|
 | Sapaan dinamis & Kalender | State saat data kosong | Simpan nama & Sort order |
 
 | Tambah/Edit Catatan |
 |:---:|
-| ![Add/Edit](screenshots/add_edit.png) |
+| <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/004b18d7-9bce-4f64-8a36-ed67effbdbea" />|
 | Form input modern |
  
 ---
@@ -113,6 +117,6 @@ CREATE TABLE Note (
 
 Tonton video demo aplikasi melalui tautan di bawah ini:
 
-### 👉 [Link Video Demo Aplikasi — Klik di Sini](#)
+### Uploading WhatsApp Video 2026-04-24 at 21.14.53.mp4…
 
-**Isi Video (Durasi ±45 Detik):**
+
