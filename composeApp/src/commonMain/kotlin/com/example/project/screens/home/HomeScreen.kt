@@ -1,11 +1,13 @@
 package com.example.project.screens.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -22,7 +24,10 @@ import com.example.project.viewmodel.SettingsViewModel
 import com.example.project.screens.components.HorizontalCalendar
 import com.example.project.screens.components.TimelineNoteItem
 import com.example.project.theme.*
+import com.example.project.platform.NetworkMonitor
 import kotlinx.datetime.*
+import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +40,21 @@ fun HomeScreen(
     val notes by viewModel.notes.collectAsState()
     val userName by settingsViewModel.userName.collectAsState()
     val isNewest by settingsViewModel.sortByNewest.collectAsState()
+
+    val networkMonitor: NetworkMonitor = koinInject()
+    val isConnected by networkMonitor.observeConnectivity().collectAsState(initial = true)
+
+    var showOfflineBanner by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isConnected) {
+        if (!isConnected) {
+            showOfflineBanner = true
+            delay(6000)
+            showOfflineBanner = false
+        } else {
+            showOfflineBanner = false
+        }
+    }
 
     var searchQuery by remember { mutableStateOf("") }
 
@@ -51,7 +71,27 @@ fun HomeScreen(
     val dateString = "${days[today.dayOfWeek.ordinal]}, ${today.dayOfMonth} ${months[today.monthNumber - 1]} ${today.year}"
 
     Column(modifier = Modifier.fillMaxSize().background(BgMain).padding(horizontal = 24.dp)) {
-        Spacer(modifier = Modifier.height(56.dp))
+        Spacer(modifier = Modifier.height(40.dp))
+
+        AnimatedVisibility(visible = showOfflineBanner) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                color = Color(0xFFE74C3C)
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(Icons.Default.CloudOff, contentDescription = "Offline", tint = Color.White)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Mode Offline - Tidak ada internet", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                }
+            }
+        }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {

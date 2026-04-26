@@ -29,6 +29,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation("app.cash.sqldelight:android-driver:2.0.1")
+            implementation("io.insert-koin:koin-android:3.5.3")
+            implementation("io.insert-koin:koin-androidx-compose:3.5.3")
         }
 
         commonMain.dependencies {
@@ -51,9 +53,11 @@ kotlin {
 
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 
-            // 🔥 Ini yang diperbaiki agar Settings() bisa dikenali
             implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")
             implementation("com.russhwolf:multiplatform-settings-coroutines:1.1.1")
+
+            implementation("io.insert-koin:koin-core:3.5.3")
+            implementation("io.insert-koin:koin-compose:1.1.2")
         }
 
         iosMain.dependencies {

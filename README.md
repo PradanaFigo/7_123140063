@@ -1,118 +1,95 @@
-# Daily Note App — Compose Multiplatform (KMP)
+#  Daily Note App — Kotlin Multiplatform
 
-> Aplikasi pencatatan harian modern berbasis **Kotlin Multiplatform** dengan penyimpanan lokal persisten, manajemen preferensi pengguna, dan UI/UX yang intuitif.
+> **Tugas Praktikum Pengembangan Aplikasi Mobile — Pertemuan 8**
+>
+> Aplikasi pencatatan harian modern yang dibangun menggunakan **Compose Multiplatform (KMP)**, dirombak secara arsitektural pada rilis minggu ke-8 menggunakan **Koin Dependency Injection** dan integrasi fitur native perangkat melalui pola **expect/actual**.
  
 ---
 
-## Informasi Mahasiswa
+## Informasi Pengembang
 
 | Field | Detail |
 |---|---|
-| **Nama** | Pradana Figo Ariansya |
+| **Nama** | Pradana Figo Ariasya |
 | **NIM** | 123140063 |
 | **Program Studi** | Teknik Informatika |
 | **Instansi** | Institut Teknologi Sumatera (ITERA) |
-| **Mata Kuliah** | Praktikum — Pertemuan 7 |
  
 ---
 
-## Deskripsi Proyek
+## Fitur Utama & Pembaruan (Minggu 8)
 
-**Daily Note App** adalah aplikasi pencatatan harian (*daily journal*) yang dibangun menggunakan **Compose Multiplatform (KMP)**. Proyek ini difokuskan pada implementasi:
+### 1. Dependency Injection (Koin)
+Seluruh *dependencies* seperti Database, Repository, ViewModels, dan Platform Services kini disuntikkan secara dinamis menggunakan Koin KMP (`KoinContext` & `KoinComponent`).
 
-- Penyimpanan data lokal yang persisten menggunakan **SQLDelight**
-- Manajemen pengaturan pengguna berbasis **multiplatform-settings**
-- Antarmuka pengguna (UI/UX) modern dengan tema *Teal & Peach*
-- Arsitektur **MVVM** yang bersih dan terstruktur
+### 2. Device Info (`expect/actual`)
+Mengambil dan menampilkan nama model perangkat, versi OS, dan versi aplikasi secara *real-time* di layar Pengaturan.
+
+### 3. Network Monitor (`expect/actual`)
+Memantau status koneksi internet pengguna. Jika koneksi terputus, aplikasi memunculkan *banner* peringatan merah **"Mode Offline"** yang dilengkapi *timer* otomatis.
+
+### 4.[BONUS] Battery Info (`expect/actual`)
+Membaca persentase kapasitas baterai saat ini dan mendeteksi status pengisian daya (*charging*), ditampilkan dengan *Progress Bar* dinamis.
+
+### 5. Offline-first & CRUD
+Pembuatan, pembacaan, pembaruan, dan penghapusan catatan yang sepenuhnya tersimpan di memori lokal (*database*).
+
+### 6. Dynamic Search & DataStore
+Fitur pencarian catatan secara instan dan penyimpanan preferensi pengguna yang tetap tersimpan meski aplikasi ditutup.
+ 
 ---
 
-## Fitur Utama
+## Architecture Diagram (DI & Platform APIs)
 
-### 1. Database Lokal (SQLDelight)
-Menggunakan **SQLDelight** untuk penyimpanan data yang bersifat *offline-first*. Semua catatan tersimpan secara lokal di perangkat tanpa membutuhkan koneksi internet.
-
-### 2. Operasi CRUD Lengkap
-Pengguna dapat melakukan operasi penuh terhadap catatan:
-- **Create** — Menambah catatan baru
-- **Read** — Membaca daftar dan detail catatan
-- **Update** — Mengedit judul, isi, atau status favorit
-- **Delete** — Menghapus catatan berdasarkan ID
-### 3. Pencarian (Search Functionality)
-Filter catatan berdasarkan judul secara instan melalui **Search Bar** di layar utama tanpa membutuhkan query tambahan ke database.
-
-### 4. Manajemen Pengaturan (DataStore)
-Menyimpan preferensi pengguna secara persisten menggunakan `multiplatform-settings`, meliputi:
-- **Nama Profil** pengguna
-- **Urutan Catatan** (Terbaru / Terlama)
-### 5. Modern UI/UX
-- Desain **Timeline** harian yang elegan
-- Tema warna **Teal & Peach**
-- **Beveled corners** (sudut membulat) pada kartu catatan
-- **Horizontal Calendar** interaktif untuk navigasi tanggal
-- Sapaan dinamis berdasarkan waktu hari
-### 6. State Handling
-Implementasi **Empty State** yang informatif ditampilkan saat:
-- Daftar catatan masih kosong
-- Hasil pencarian tidak ditemukan
----
-
-## Skema Database
-
-Aplikasi menggunakan tabel `Note` dengan skema berikut:
-
-```sql
-CREATE TABLE Note (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    title      TEXT    NOT NULL,
-    content    TEXT    NOT NULL,
-    isFavorite INTEGER DEFAULT 0,
-    created_at INTEGER NOT NULL
-);
 ```
-
-### Query Utama
-
-| Query | Deskripsi |
-|---|---|
-| `selectAll` | Mengambil semua catatan berurutan berdasarkan waktu |
-| `insert` | Menambahkan catatan baru ke database |
-| `update` | Memperbarui isi atau status favorit catatan |
-| `delete` | Menghapus catatan berdasarkan ID |
+UI Layer (Compose Multiplatform)
+       │ (koinInject)
+       ▼
+[ ViewModels ] ──► (StateFlow) ──► HomeScreen & SettingsScreen
+       │
+       ├─► NoteViewModel
+       └─► SettingsViewModel
+       │ (Constructor Injection)
+       ▼
+Data Layer & Platform Layer (Koin Modules — AppModule.kt)
+       │
+       ├─► [ Repository ] ──► NoteRepository & SettingsManager
+       ├─► [ Database ]   ──► SQLDelight (NotesDatabase)
+       │
+       └─► [ Platform APIs (expect/actual pattern) ]
+               ├─► DeviceInfo    (Model, OS, App Version)
+               ├─► NetworkMonitor (ConnectivityManager)
+               └─► BatteryInfo   (BatteryManager)
+```
  
+---
+
+## Dokumentasi Antarmuka (Screenshots)
+
+| Layar Utama & Kalender | Network Offline Indicator | Layar Pengaturan | Device & Battery Info |
+|:---:|:---:|:---:|:---:|
+| *(Masukkan gambar Home)* | *(Masukkan gambar Offline State)* | *(Masukkan gambar Settings)* | *(Masukkan gambar Battery/Device Info)* |
+ 
+---
+
+## Video Demonstrasi
+
+Tonton video demo aplikasi (durasi ±45 detik) untuk melihat semua fitur berjalan secara langsung:
+
+> **[Tautkan URL Video Demo Kamu Di Sini]**
+
 ---
 
 ## Teknologi yang Digunakan
 
 | Kategori | Teknologi |
 |---|---|
-| **Language** | Kotlin |
-| **UI Framework** | Compose Multiplatform |
-| **Navigation** | Jetpack Navigation Compose |
-| **Local Database** | SQLDelight |
-| **Preferences** | Multiplatform Settings (DataStore-like) |
-| **Date & Time** | kotlinx-datetime |
-| **Architecture** | MVVM (Model-View-ViewModel) |
+| **Bahasa** | Kotlin |
+| **Framework UI** | Compose Multiplatform (Android & iOS ready) |
+| **Dependency Injection** | Koin (`koin-core`, `koin-compose`) |
+| **Database** | SQLDelight |
+| **Preferences** | Multiplatform Settings |
+| **Date & Time** | `kotlinx-datetime` |
+| **Asynchronous** | Kotlin Coroutines & Flow |
  
 ---
-
-## Dokumentasi Antarmuka (Screenshots)
-
-| Layar Utama (Home) | Pencarian & Empty State | Pengaturan (Settings) |
-|:---:|:---:|:---:|
-| ![Home](screenshots/home.png) | ![Search](screenshots/search_empty.png) | ![Settings](screenshots/settings.png) |
-| Sapaan dinamis & Kalender | State saat data kosong | Simpan nama & Sort order |
-
-| Tambah/Edit Catatan |
-|:---:|
-| ![Add/Edit](screenshots/add_edit.png) |
-| Form input modern |
- 
----
-
-## 🎥 Video Demonstrasi
-
-Tonton video demo aplikasi melalui tautan di bawah ini:
-
-### 👉 [Link Video Demo Aplikasi — Klik di Sini](#)
-
-**Isi Video (Durasi ±45 Detik):**
