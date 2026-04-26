@@ -66,9 +66,9 @@ Data Layer & Platform Layer (Koin Modules — AppModule.kt)
 
 ## Dokumentasi Antarmuka (Screenshots)
 
-| Layar Utama & Kalender | Network Offline Indicator | Layar Pengaturan | Device & Battery Info |
-|:---:|:---:|:---:|:---:|
-| *(Masukkan gambar Home)* | *(Masukkan gambar Offline State)* | *(Masukkan gambar Settings)* | *(Masukkan gambar Battery/Device Info)* |
+| Layar Utama & Kalender | Network Offline Indicator | Device & Battery Info |
+|:---:|:---:|:---:|
+| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/df96896c-e493-45ea-aa06-8fbcc11c047e" />| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/c4c0ff49-50f8-42b7-b773-41169f746c44" />| <img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/8f1423ec-0287-4377-b03f-91a54f5d50a4" />|
  
 ---
 
@@ -76,7 +76,7 @@ Data Layer & Platform Layer (Koin Modules — AppModule.kt)
 
 Tonton video demo aplikasi (durasi ±45 detik) untuk melihat semua fitur berjalan secara langsung:
 
-> **[Tautkan URL Video Demo Kamu Di Sini]**
+https://github.com/user-attachments/assets/8aaa6e9f-fb0e-451d-bcae-47b555cc4ee2
 
 ---
 
