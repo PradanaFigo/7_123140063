@@ -1,95 +1,80 @@
-#  Daily Note App — Kotlin Multiplatform
+#  Aplikasi Catatan AI (KMP Notes App)
 
-> **Tugas Praktikum Pengembangan Aplikasi Mobile — Pertemuan 8**
->
-> Aplikasi pencatatan harian modern yang dibangun menggunakan **Compose Multiplatform (KMP)**, dirombak secara arsitektural pada rilis minggu ke-8 menggunakan **Koin Dependency Injection** dan integrasi fitur native perangkat melalui pola **expect/actual**.
- 
+Aplikasi pencatatan cerdas berbasis **Kotlin Multiplatform (KMP)** yang dilengkapi dengan integrasi **Google Gemini AI**. Aplikasi ini tidak hanya berfungsi sebagai buku catatan digital biasa, tetapi juga dapat merangkum dan menerjemahkan teks secara otomatis menggunakan kecerdasan buatan.
+
 ---
 
-## Informasi Pengembang
+## Fitur Utama
 
-| Field | Detail |
+* **Manajemen Catatan:** Tambah, edit, simpan, dan hapus catatan dengan antarmuka yang bersih.
+* **🤖 Rangkum AI:** Merangkum teks catatan yang panjang menjadi poin-poin singkat menggunakan model bahasa Google Gemini.
+* **🌐 Translate AI:** Menerjemahkan isi catatan secara otomatis menggunakan kecerdasan buatan.
+* **Penyimpanan Lokal Offline:** Data catatan disimpan secara lokal dan aman di dalam perangkat menggunakan SQLDelight.
+* **UI Modern:** Dibangun menggunakan Compose Multiplatform untuk tampilan yang responsif.
+
+---
+
+##  Teknologi yang Digunakan
+
+| Komponen | Teknologi |
 |---|---|
-| **Nama** | Pradana Figo Ariasya |
+| Bahasa Pemrograman | Kotlin |
+| Framework | Kotlin Multiplatform (KMP) |
+| UI Toolkit | Compose Multiplatform (Jetpack Compose) |
+| Networking | Ktor Client |
+| Database | SQLDelight |
+| Artificial Intelligence | Google Gemini API (Gemini 1.5 Flash) |
+
+---
+
+## Cara Instalasi & Menjalankan Aplikasi
+
+### 1. Clone Repositori
+
+```bash
+git clone [URL_REPOSITORI_KAMU]
+```
+
+### 2. Buka Proyek
+
+Buka proyek di **Android Studio**.
+
+### 3. Konfigurasi API Key Google Gemini
+
+Aplikasi ini membutuhkan API Key dari Google AI Studio.
+
+* Dapatkan API Key di [Google AI Studio](https://aistudio.google.com/).
+* Buka file konfigurasi di path berikut:
+  ```
+  composeApp/src/androidMain/kotlin/com/example/project/platform/ApiConfig.android.kt
+  ```
+* Masukkan API Key kamu ke dalam variabel:
+
+```kotlin
+package com.example.project.platform
+
+actual object ApiConfig {
+    actual val geminiApiKey: String = "MASUKKAN_API_KEY_KAMU_DISINI"
+}
+```
+
+### 4. Bersihkan dan Bangun Proyek *(Wajib agar API Key terbaca sistem)*
+
+* Di Android Studio, klik menu **Build > Clean Project**.
+* Setelah selesai, klik menu **Build > Rebuild Project**.
+
+### 5. Jalankan Aplikasi
+
+* Pilih emulator Android atau sambungkan perangkat fisikmu.
+* Klik tombol **Run** ▶️ di Android Studio.
+
+---
+
+##  Pengembang
+
+| | |
+|---|---|
+| **Nama** | Pradana Figo Ariansya |
 | **NIM** | 123140063 |
 | **Program Studi** | Teknik Informatika |
 | **Instansi** | Institut Teknologi Sumatera (ITERA) |
- 
----
-
-## Fitur Utama & Pembaruan (Minggu 8)
-
-### 1. Dependency Injection (Koin)
-Seluruh *dependencies* seperti Database, Repository, ViewModels, dan Platform Services kini disuntikkan secara dinamis menggunakan Koin KMP (`KoinContext` & `KoinComponent`).
-
-### 2. Device Info (`expect/actual`)
-Mengambil dan menampilkan nama model perangkat, versi OS, dan versi aplikasi secara *real-time* di layar Pengaturan.
-
-### 3. Network Monitor (`expect/actual`)
-Memantau status koneksi internet pengguna. Jika koneksi terputus, aplikasi memunculkan *banner* peringatan merah **"Mode Offline"** yang dilengkapi *timer* otomatis.
-
-### 4.[BONUS] Battery Info (`expect/actual`)
-Membaca persentase kapasitas baterai saat ini dan mendeteksi status pengisian daya (*charging*), ditampilkan dengan *Progress Bar* dinamis.
-
-### 5. Offline-first & CRUD
-Pembuatan, pembacaan, pembaruan, dan penghapusan catatan yang sepenuhnya tersimpan di memori lokal (*database*).
-
-### 6. Dynamic Search & DataStore
-Fitur pencarian catatan secara instan dan penyimpanan preferensi pengguna yang tetap tersimpan meski aplikasi ditutup.
- 
----
-
-## Architecture Diagram (DI & Platform APIs)
-
-```
-UI Layer (Compose Multiplatform)
-       │ (koinInject)
-       ▼
-[ ViewModels ] ──► (StateFlow) ──► HomeScreen & SettingsScreen
-       │
-       ├─► NoteViewModel
-       └─► SettingsViewModel
-       │ (Constructor Injection)
-       ▼
-Data Layer & Platform Layer (Koin Modules — AppModule.kt)
-       │
-       ├─► [ Repository ] ──► NoteRepository & SettingsManager
-       ├─► [ Database ]   ──► SQLDelight (NotesDatabase)
-       │
-       └─► [ Platform APIs (expect/actual pattern) ]
-               ├─► DeviceInfo    (Model, OS, App Version)
-               ├─► NetworkMonitor (ConnectivityManager)
-               └─► BatteryInfo   (BatteryManager)
-```
- 
----
-
-## Dokumentasi Antarmuka (Screenshots)
-
-| Layar Utama & Kalender | Network Offline Indicator | Layar Pengaturan | Device & Battery Info |
-|:---:|:---:|:---:|:---:|
-| *(Masukkan gambar Home)* | *(Masukkan gambar Offline State)* | *(Masukkan gambar Settings)* | *(Masukkan gambar Battery/Device Info)* |
- 
----
-
-## Video Demonstrasi
-
-Tonton video demo aplikasi (durasi ±45 detik) untuk melihat semua fitur berjalan secara langsung:
-
-> **[Tautkan URL Video Demo Kamu Di Sini]**
-
----
-
-## Teknologi yang Digunakan
-
-| Kategori | Teknologi |
-|---|---|
-| **Bahasa** | Kotlin |
-| **Framework UI** | Compose Multiplatform (Android & iOS ready) |
-| **Dependency Injection** | Koin (`koin-core`, `koin-compose`) |
-| **Database** | SQLDelight |
-| **Preferences** | Multiplatform Settings |
-| **Date & Time** | `kotlinx-datetime` |
-| **Asynchronous** | Kotlin Coroutines & Flow |
- 
----

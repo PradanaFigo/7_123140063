@@ -4,16 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project.viewmodel.NoteViewModel
+import com.example.project.viewmodel.AiViewModel
 import com.example.project.theme.*
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,6 +25,9 @@ fun AddEditScreen(
     viewModel: NoteViewModel,
     onBack: () -> Unit
 ) {
+    val aiViewModel: AiViewModel = koinInject()
+    val aiState by aiViewModel.uiState.collectAsState()
+
     val existingNote = remember(noteId) {
         noteId?.let { viewModel.getNoteById(it) }
     }
@@ -41,7 +47,7 @@ fun AddEditScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = PrimaryTeal)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Kembali", tint = PrimaryTeal)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = BgMain)
@@ -85,7 +91,70 @@ fun AddEditScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedButton(
+                    onClick = { aiViewModel.summarizeNote(content) },
+                    enabled = !aiState.isLoading && content.isNotBlank(),
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Rangkum AI", color = PrimaryTeal)
+                }
+
+                OutlinedButton(
+                    onClick = { aiViewModel.translateNote(content, "Inggris") },
+                    enabled = !aiState.isLoading && content.isNotBlank(),
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Translate AI", color = PrimaryTeal)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (aiState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    color = PrimaryTeal
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            } else if (aiState.resultText.isNotBlank()) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = PrimaryLight),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Hasil AI:", fontWeight = FontWeight.Bold, color = TextHeading)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(aiState.resultText, color = TextBody, fontSize = 14.sp)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TextButton(
+                            onClick = {
+                                content = aiState.resultText
+                                aiViewModel.clearResult()
+                            },
+                            modifier = Modifier.align(Alignment.End)
+                        ) {
+                            Text("Ganti isi catatan", color = PrimaryTeal)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            } else if (aiState.error != null) {
+                Text(
+                    text = "Error: ${aiState.error}",
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             Button(
                 onClick = {

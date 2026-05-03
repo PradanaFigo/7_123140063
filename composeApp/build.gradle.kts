@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     id("app.cash.sqldelight") version "2.0.1"
+
+    // 🔥 Wajib ditambahkan: Plugin untuk parsing JSON Gemini
+    kotlin("plugin.serialization") version "1.9.20" // (Catatan: Ubah '1.9.20' menyesuaikan versi Kotlin di project-mu jika terjadi error merah)
 }
 
 kotlin {
@@ -31,6 +34,9 @@ kotlin {
             implementation("app.cash.sqldelight:android-driver:2.0.1")
             implementation("io.insert-koin:koin-android:3.5.3")
             implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+
+            // 🔥 Ktor Engine untuk Android
+            implementation("io.ktor:ktor-client-okhttp:2.3.9")
         }
 
         commonMain.dependencies {
@@ -58,16 +64,27 @@ kotlin {
 
             implementation("io.insert-koin:koin-core:3.5.3")
             implementation("io.insert-koin:koin-compose:1.1.2")
+
+            // 🔥 Library Inti Ktor & Serialization untuk request Gemini
+            implementation("io.ktor:ktor-client-core:2.3.9")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.9")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.9")
         }
 
         iosMain.dependencies {
             implementation("app.cash.sqldelight:native-driver:2.0.1")
+
+            // 🔥 Ktor Engine untuk iOS
+            implementation("io.ktor:ktor-client-darwin:2.3.9")
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
+
+            // 🔥 Ktor Engine untuk Desktop (JVM)
+            implementation("io.ktor:ktor-client-okhttp:2.3.9")
         }
     }
 }
