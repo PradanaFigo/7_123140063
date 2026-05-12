@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag // <-- IMPORT INI DITAMBAHKAN
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -127,7 +128,8 @@ fun HomeScreen(
                     onValueChange = { searchQuery = it },
                     placeholder = { Text("Ketik judul...", color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Search, null, tint = PrimaryTeal) },
-                    modifier = Modifier.fillMaxWidth().height(54.dp),
+                    // <-- TEST TAG PENCARIAN DITAMBAHKAN DI SINI -->
+                    modifier = Modifier.fillMaxWidth().height(54.dp).testTag("search_input"),
                     shape = RoundedCornerShape(16.dp),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White,
@@ -155,7 +157,9 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = if (searchQuery.isNotEmpty()) "Catatan tidak ditemukan" else "Belum ada catatan",
-                    fontWeight = FontWeight.Bold, color = TextHeading, fontSize = 16.sp
+                    fontWeight = FontWeight.Bold, color = TextHeading, fontSize = 16.sp,
+                    // <-- TEST TAG EMPTY STATE DITAMBAHKAN DI SINI -->
+                    modifier = Modifier.testTag("empty_state_text")
                 )
                 Text(
                     text = if (searchQuery.isNotEmpty()) "Coba kata kunci lain" else "Yuk, mulai tulis rutinitasmu!",

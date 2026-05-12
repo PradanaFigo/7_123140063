@@ -16,7 +16,7 @@ class MyApp : Application() {
         startKoin {
             androidContext(this@MyApp)
 
-            modules(appModule, module {
+            modules(appModule + module {
                 single { DatabaseDriverFactory(get()).createDriver() }
                 single<Settings> {
                     SharedPreferencesSettings(get<Context>().getSharedPreferences("settings", Context.MODE_PRIVATE))

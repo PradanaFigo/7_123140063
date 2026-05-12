@@ -12,18 +12,17 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import com.russhwolf.settings.Settings
 
-val appModule = module {
-    // Database & Storage
+val dataModule = module {
     single { SettingsManager(get<Settings>()) }
     single { NotesDatabase(get()) }
     single { NoteRepository(get<NotesDatabase>()) }
+}
 
-    // Platform Services
+val networkModule = module {
     single { DeviceInfo() }
     single { NetworkMonitor() }
     single { BatteryInfo() }
 
-    // Ktor & AI
     single {
         HttpClient {
             install(ContentNegotiation) {
@@ -33,9 +32,16 @@ val appModule = module {
     }
     single { GeminiService(get<HttpClient>()) }
     single<AiRepository> { AiRepositoryImpl(get<GeminiService>()) }
+}
 
-    // ViewModels
+val viewModelModule = module {
     single { NoteViewModel(get<NoteRepository>()) }
     single { SettingsViewModel(get<SettingsManager>()) }
     single { AiViewModel(get<AiRepository>()) }
 }
+
+val appModule = listOf(
+    dataModule,
+    networkModule,
+    viewModelModule
+)

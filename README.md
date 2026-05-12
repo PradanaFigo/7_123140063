@@ -1,80 +1,77 @@
-#  Aplikasi Catatan AI (KMP Notes App)
+# Tugas Pertemuan 10: Dependency Injection & Testing (KMP)
 
-Aplikasi pencatatan cerdas berbasis **Kotlin Multiplatform (KMP)** yang dilengkapi dengan integrasi **Google Gemini AI**. Aplikasi ini tidak hanya berfungsi sebagai buku catatan digital biasa, tetapi juga dapat merangkum dan menerjemahkan teks secara otomatis menggunakan kecerdasan buatan.
-
+Repositori ini berisi pengerjaan **Tugas Pertemuan 10** untuk mata kuliah **Pemrograman Perangkat Bergerak (KMP)**. Aplikasi telah di-*refactor* menggunakan Dependency Injection dan diuji dengan serangkaian Unit Test serta UI Test.
+ 
 ---
 
-## Fitur Utama
+## Identitas Mahasiswa
 
-* **Manajemen Catatan:** Tambah, edit, simpan, dan hapus catatan dengan antarmuka yang bersih.
-* **🤖 Rangkum AI:** Merangkum teks catatan yang panjang menjadi poin-poin singkat menggunakan model bahasa Google Gemini.
-* **🌐 Translate AI:** Menerjemahkan isi catatan secara otomatis menggunakan kecerdasan buatan.
-* **Penyimpanan Lokal Offline:** Data catatan disimpan secara lokal dan aman di dalam perangkat menggunakan SQLDelight.
-* **UI Modern:** Dibangun menggunakan Compose Multiplatform untuk tampilan yang responsif.
-
----
-
-##  Teknologi yang Digunakan
-
-| Komponen | Teknologi |
-|---|---|
-| Bahasa Pemrograman | Kotlin |
-| Framework | Kotlin Multiplatform (KMP) |
-| UI Toolkit | Compose Multiplatform (Jetpack Compose) |
-| Networking | Ktor Client |
-| Database | SQLDelight |
-| Artificial Intelligence | Google Gemini API (Gemini 1.5 Flash) |
-
----
-
-## Cara Instalasi & Menjalankan Aplikasi
-
-### 1. Clone Repositori
-
-```bash
-git clone [URL_REPOSITORI_KAMU]
-```
-
-### 2. Buka Proyek
-
-Buka proyek di **Android Studio**.
-
-### 3. Konfigurasi API Key Google Gemini
-
-Aplikasi ini membutuhkan API Key dari Google AI Studio.
-
-* Dapatkan API Key di [Google AI Studio](https://aistudio.google.com/).
-* Buka file konfigurasi di path berikut:
-  ```
-  composeApp/src/androidMain/kotlin/com/example/project/platform/ApiConfig.android.kt
-  ```
-* Masukkan API Key kamu ke dalam variabel:
-
-```kotlin
-package com.example.project.platform
-
-actual object ApiConfig {
-    actual val geminiApiKey: String = "MASUKKAN_API_KEY_KAMU_DISINI"
-}
-```
-
-### 4. Bersihkan dan Bangun Proyek *(Wajib agar API Key terbaca sistem)*
-
-* Di Android Studio, klik menu **Build > Clean Project**.
-* Setelah selesai, klik menu **Build > Rebuild Project**.
-
-### 5. Jalankan Aplikasi
-
-* Pilih emulator Android atau sambungkan perangkat fisikmu.
-* Klik tombol **Run** ▶️ di Android Studio.
-
----
-
-##  Pengembang
-
-| | |
+| Field | Detail |
 |---|---|
 | **Nama** | Pradana Figo Ariansya |
 | **NIM** | 123140063 |
 | **Program Studi** | Teknik Informatika |
-| **Instansi** | Institut Teknologi Sumatera (ITERA) |
+| **Institut** | Institut Teknologi Sumatera (ITERA) |
+ 
+---
+
+## Tujuan Pembelajaran
+
+1. Mengimplementasikan **Dependency Injection (DI)** menggunakan **Koin** pada platform Kotlin Multiplatform (KMP).
+2. Memisahkan modul-modul aplikasi *(Data, Network, ViewModel)* ke dalam berkas `AppModule.kt`.
+3. Menulis dan menjalankan **Unit Test** untuk Repository dan ViewModel menggunakan **MockK** dan **Turbine**.
+4. Menulis dan menjalankan **UI Test** *(Instrumented Test)* menggunakan Compose UI Test Rule di Emulator Android.
+5. Memenuhi standar *Minimum Code Coverage* sebesar **60%**.
+---
+
+##  Teknologi & Library
+
+| Kategori | Library / Tool |
+|---|---|
+| **UI Framework** | Compose Multiplatform |
+| **Dependency Injection** | Koin (`koin-core`, `koin-compose`, `koin-android`) |
+| **Unit Testing** | `kotlin.test`, MockK, Turbine, Coroutines Test (`UnconfinedTestDispatcher`) |
+| **UI Testing** | `androidx.compose.ui:ui-test-junit4` |
+ 
+---
+
+## Skenario Pengujian
+
+### 1. Unit Test — ViewModel & Repository
+
+Pengujian logika bisnis tanpa melibatkan UI Thread Android.
+
+| Test Class | Skenario yang Diuji |
+|---|---|
+| `NoteRepositoryTest` | Operasi pengambilan, penambahan, penghapusan, dan pembaruan catatan menggunakan *relaxed mock* (mencegah bentrok dengan SQLDelight) |
+| `NotesViewModelTest` | State awal/loading menggunakan *Turbine*; pemanggilan `addNote`, `deleteNote`, dan `toggleFavorite` agar memicu interaksi yang tepat ke Repository |
+
+### 2. UI Test — HomeScreen
+
+Skenario yang disimulasikan menggunakan Emulator Android:
+
+| Test Case | Deskripsi |
+|---|---|
+| `emptyState_isDisplayed_whenNoNotes` | Memastikan komponen pesan kosong muncul saat hasil pencarian tidak ditemukan |
+| `searchBar_allowsInput` | Mensimulasikan pengetikan teks pada kolom pencarian dan memverifikasi teks tertampil |
+| `settingsButton_isClickable` | Menguji interaksi klik pada tombol navigasi pengaturan |
+ 
+---
+
+## Bukti Code Coverage
+
+> Minimum coverage yang disyaratkan: **60%**
+
+![Code Coverage Screenshot](GANTI_DENGAN_LINK_ATAU_PATH_GAMBAR_SCREENSHOT_COVERAGE)
+
+*Screenshot di atas menunjukkan bahwa pengujian telah melampaui batas minimum 60% pada modul yang diuji.*
+ 
+---
+
+## Video Demo (±45 Detik)
+
+Video demonstrasi menampilkan proses *Running UI Test* di emulator dan hasil eksekusi Unit Test.
+
+>  **[Tonton Video Demo Tugas 10](GANTI_DENGAN_LINK_YOUTUBE_ATAU_GDRIVE)**
+ 
+---
