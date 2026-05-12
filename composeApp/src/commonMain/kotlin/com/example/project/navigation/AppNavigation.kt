@@ -16,36 +16,71 @@ import com.example.project.screens.home.HomeScreen
 import com.example.project.screens.favorites.FavoritesScreen
 import com.example.project.screens.notes.AddEditScreen
 import com.example.project.screens.settings.SettingsScreen
+import com.example.project.screens.ai.AiChatScreen
 import com.example.project.theme.*
 import com.example.project.viewmodel.NoteViewModel
 import com.example.project.viewmodel.SettingsViewModel
+import com.example.project.viewmodel.AiViewModel
 
 @Composable
-fun AppNavigation(viewModel: NoteViewModel, settingsViewModel: SettingsViewModel) {
+fun AppNavigation(
+    viewModel: NoteViewModel,
+    settingsViewModel: SettingsViewModel,
+    aiViewModel: AiViewModel
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         bottomBar = {
-            if (currentRoute == Screen.Home.route || currentRoute == Screen.Favorites.route) {
+            if (currentRoute == Screen.Home.route || currentRoute == Screen.Favorites.route || currentRoute == "chat_ai_screen") {
                 NavigationBar(containerColor = CardWhite, tonalElevation = 8.dp) {
+
+                    // 1. Tombol Home
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Home, null) },
                         label = { Text("Home") },
                         selected = currentRoute == Screen.Home.route,
-                        onClick = { navController.navigate(Screen.Home.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Home.route) {
+                                navController.navigate(Screen.Home.route) { popUpTo(Screen.Home.route) { inclusive = true } }
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PrimaryTeal,
                             selectedTextColor = PrimaryTeal,
                             indicatorColor = PrimaryLight
                         )
                     )
+
+                    // 2. Tombol Favorit
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Favorite, null) },
                         label = { Text("Favorit") },
                         selected = currentRoute == Screen.Favorites.route,
-                        onClick = { navController.navigate(Screen.Favorites.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Favorites.route) {
+                                navController.navigate(Screen.Favorites.route)
+                            }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = PrimaryTeal,
+                            selectedTextColor = PrimaryTeal,
+                            indicatorColor = PrimaryLight
+                        )
+                    )
+
+                    // 3. Tombol Tanya AI
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Star, null) },
+                        label = { Text("Tanya AI") },
+                        selected = currentRoute == "chat_ai_screen",
+                        onClick = {
+                            if (currentRoute != "chat_ai_screen") {
+                                navController.navigate("chat_ai_screen")
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PrimaryTeal,
                             selectedTextColor = PrimaryTeal,
@@ -95,6 +130,13 @@ fun AppNavigation(viewModel: NoteViewModel, settingsViewModel: SettingsViewModel
                     noteId = if (id == -1L) null else id,
                     viewModel = viewModel,
                     onBack = { navController.popBackStack() }
+                )
+            }
+
+            composable("chat_ai_screen") {
+                AiChatScreen(
+                    viewModel = aiViewModel,
+                    onBackClick = { navController.popBackStack() }
                 )
             }
         }
