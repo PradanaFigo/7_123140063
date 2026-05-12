@@ -61,17 +61,17 @@ Skenario yang disimulasikan menggunakan Emulator Android:
 ## Bukti Code Coverage
 
 > Minimum coverage yang disyaratkan: **60%**
+<img width="1600" height="850" alt="image" src="https://github.com/user-attachments/assets/69607056-f4ef-4ae8-8ec3-593e9fbb0585" />
+<img width="1600" height="801" alt="image" src="https://github.com/user-attachments/assets/4a9c73c1-55c1-4b2c-bf90-856135563c4b" />
+<img width="1600" height="804" alt="image" src="https://github.com/user-attachments/assets/a9dcc9f2-c354-45ff-a6a2-8ddd3dbb90eb" />
 
-![Code Coverage Screenshot](GANTI_DENGAN_LINK_ATAU_PATH_GAMBAR_SCREENSHOT_COVERAGE)
-
-*Screenshot di atas menunjukkan bahwa pengujian telah melampaui batas minimum 60% pada modul yang diuji.*
  
 ---
 
-## Video Demo (±45 Detik)
+## Video Demo 
 
 Video demonstrasi menampilkan proses *Running UI Test* di emulator dan hasil eksekusi Unit Test.
 
->  **[Tonton Video Demo Tugas 10](GANTI_DENGAN_LINK_YOUTUBE_ATAU_GDRIVE)**
- 
+https://github.com/user-attachments/assets/2761761e-e50a-4d75-bef0-db0eadf12b66
+
 ---
